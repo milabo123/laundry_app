@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('levels', function (Blueprint $table) {
+        Schema::create('level', function (Blueprint $table) {
             $table->id();
+            $table->string('level_name', 50);
             $table->timestamps();
+            $table->dateTime('deleted_at')->nullable();
         });
     }
 

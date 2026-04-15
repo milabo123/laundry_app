@@ -10,9 +10,9 @@ class CustomerController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index() {
+        $customers = Customer::all();
+        return view('admin.customers.index', compact('customers'));
     }
 
     /**
@@ -26,9 +26,15 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request) {
+        $request->validate([
+            'customer_name' => 'required|max:50',
+            'phone' => 'required|max:13',
+            'address' => 'required',
+        ]);
+
+        Customer::create($request->all());
+        return redirect()->route('admin.customers.index')->with('success', 'Customer berhasil ditambahkan.');
     }
 
     /**

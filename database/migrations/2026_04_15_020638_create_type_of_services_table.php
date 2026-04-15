@@ -6,22 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('trans_order_details', function (Blueprint $table) {
+        Schema::create('type_of_service', function (Blueprint $table) {
             $table->id();
+            $table->string('service_name', 50);
+            $table->integer('price');
+            $table->text('description');
             $table->timestamps();
+            $table->dateTime('deleted_at')->nullable();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('trans_order_details');
+        Schema::dropIfExists('type_of_service');
     }
 };

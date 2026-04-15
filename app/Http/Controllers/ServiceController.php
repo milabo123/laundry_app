@@ -2,27 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Level;
+use App\Models\TypeOfService;
 
-class UserController extends Controller
+class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index() {
-        $users = User::with('level')->get();
-        return view('admin.users.index', compact('users'));
+        $services = TypeOfService::all();
+        return view('admin.services.index', compact('services'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {
-        $levels = Level::all(); // Mengambil level: Admin, Pimpinan, Operator
-        return view('admin.users.create', compact('levels'));
+    public function create()
+    {
+        //
     }
 
     /**
@@ -30,20 +28,13 @@ class UserController extends Controller
      */
     public function store(Request $request) {
         $request->validate([
-            'name' => 'required|max:50',
-            'email' => 'required|email|unique:user,email',
-            'password' => 'required|min:6',
-            'id_level' => 'required',
+            'service_name' => 'required|max:50',
+            'price' => 'required|numeric',
+            'description' => 'required',
         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'id_level' => $request->id_level,
-        ]);
-
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambahkan.');
+        TypeOfService::create($request->all());
+        return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
     /**
